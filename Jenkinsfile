@@ -2,24 +2,21 @@ pipeline {
     agent any
 
     stages {
-        stage('Build & Tag Docker Image') {
-            steps {
-                script {
-                    withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                        sh "docker build -t saitejach/emailservice:latest ."
+        stage("Docker Build & Push"){
+            steps{
+                script{
+                    withDockerRegistry(credentialsId: 'docker-cred'){   
+                       sh "docker build -t emailservice ."
+                       sh "docker tag emailservice saitejch/emailservice:latest "
+                       sh "docker push saitejch/emailservice:latest "
                     }
                 }
             }
         }
         
-        stage('Push Docker Image') {
-            steps {
-                script {
-                    withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                        sh "docker push saitejach/emailservice:latest "
-                    }
-                }
-            }
-        }
     }
 }
+
+
+
+
