@@ -2,24 +2,18 @@ pipeline {
     agent any
 
     stages {
-        stage('Build & Tag Docker Image') {
-            steps {
-                script {
-                    withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                        sh "docker build -t adijaiswal/checkoutservice:latest ."
+        stage("Docker Build & Push"){
+            steps{
+                script{
+                    withDockerRegistry(credentialsId: 'docker-cred'){   
+                       sh "docker build -t checkoutservice ."
+                       sh "docker tag checkoutservice saitejch/checkoutservice:latest "
+                       sh "docker push saitejch/checkoutservice:latest "
                     }
                 }
             }
         }
         
-        stage('Push Docker Image') {
-            steps {
-                script {
-                    withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                        sh "docker push adijaiswal/checkoutservice:latest "
-                    }
-                }
-            }
-        }
     }
 }
+
