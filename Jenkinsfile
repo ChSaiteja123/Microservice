@@ -6,9 +6,9 @@ pipeline {
             steps{
                 script{
                     withDockerRegistry(credentialsId: 'docker-cred'){   
-                       sh "docker build -t currencyservice ."
-                       sh "docker tag currencyservice saitejch/currencyservice:latest "
-                       sh "docker push saitejch/currencyservice:latest "
+                       sh "docker build -t adservice ."
+                       sh "docker tag adservice saitejch/adservice:latest "
+                       sh "docker push saitejch/adservice:latest "
                     }
                 }
             }
