@@ -2,24 +2,20 @@ pipeline {
     agent any
 
     stages {
-        stage('Build & Tag Docker Image') {
-            steps {
-                script {
-                    withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                        sh "docker build -t adijaiswal/loadgenerator:latest ."
+        stage("Docker Build & Push"){
+            steps{
+                script{
+                    withDockerRegistry(credentialsId: 'docker-cred'){   
+                       sh "docker build -t loadgenerator ."
+                       sh "docker tag loadgenerator saitejch/loadgenerator:latest "
+                       sh "docker push saitejch/loadgenerator:latest "
                     }
                 }
             }
         }
         
-        stage('Push Docker Image') {
-            steps {
-                script {
-                    withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                        sh "docker push adijaiswal/loadgenerator:latest"
-                    }
-                }
-            }
-        }
     }
 }
+
+
+
